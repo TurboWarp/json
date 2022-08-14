@@ -168,7 +168,7 @@ test('stringify', () => {
   expect(stringify(-0)).toBe('0');
   expect(stringify({
     "an object": {
-      "": [
+      "\"": [
         NaN,
         Infinity,
         -Infinity,
@@ -176,7 +176,22 @@ test('stringify', () => {
         false,
         "",
         null,
-      ]
+      ],
+      "": 1
     }
-  })).toBe('{"an object":{"":[NaN,Infinity,-Infinity,true,false,"",null]}}');
+  })).toBe('{"an object":{"\\\"":[NaN,Infinity,-Infinity,true,false,"",null],"":1}}');
+  expect(stringify({
+    a: 1,
+    b: undefined,
+    c: null,
+    d: "Hello \""
+  })).toBe(`{"a":1,"c":null,"d":"Hello \\""}`);
+  expect(stringify({
+    a: undefined,
+    b: false
+  })).toBe(`{"b":false}`);
+  expect(stringify(undefined)).toBe('null');
+  expect(stringify([1, undefined, 3])).toBe('[1,null,3]');
+  expect(stringify([1, Symbol(), 3])).toBe('[1,null,3]');
+  expect(() => stringify(10n)).toThrow('Can not stringify bigint');
 });

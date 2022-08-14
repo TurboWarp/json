@@ -313,14 +313,11 @@ export const stringify = (object) => {
   if (typeof object === 'string') {
     return JSON.stringify(object);
   }
-  if (typeof object === 'number') {
+  if (typeof object === 'number' || typeof object === 'boolean') {
     // Difference from regular JSON: [-]Infinity and NaN will be sanitized as-is
     return object.toString();
   }
-  if (typeof object === 'boolean') {
-    return object.toString();
-  }
-  if (object === null) {
+  if (object === null || typeof object === 'undefined' || typeof object === 'symbol') {
     return 'null';
   }
   if (Array.isArray(object)) {
@@ -344,5 +341,8 @@ export const stringify = (object) => {
     result += '}';
     return result;
   }
-  throw new Error('Can not stringify');
+  if (typeof object === 'bigint') {
+    throw new TypeError('Can not stringify bigint');
+  }
+  throw new TypeError(`Can not stringify: ${object}`);
 };
