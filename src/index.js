@@ -1,6 +1,3 @@
-// This is the parser Scratch 2 uses for reference:
-// https://github.com/LLK/scratch-flash/blob/2e4a402ceb205a042887f54b26eebe1c2e6da6c0/src/util/JSON.as
-
 /**
  * @param {string} source
  * @returns {unknown}
