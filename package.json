@@ -1,6 +1,6 @@
 {
   "name": "@turbowarp/json",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Parse the non-standards compliant JSON found in some Scratch 2 projects",
   "main": "./lib/cjs.cjs",
   "module": "./src/index.js",
