@@ -63,14 +63,32 @@ export const _parse = (source) => {
     return result;
   };
 
-  const skipWhitespace = () => {
-    while (/\s/.test(currentChar())) {
-      next();
+  const skipWhitespaceAndComments = () => {
+    while (true) {
+      if (/\s/.test(currentChar())) {
+        next();
+      } else if (peek(2, 0) === '//') {
+        next(); // consume /
+        next(); // consume /
+        while (currentChar() !== '\n') {
+          next();
+        }
+      } else if (peek(2, 0) === '/*') {
+        next(); // consume /
+        next(); // consume *
+        while (peek(2, 0) !== '*/') {
+          next();
+        }
+        next(); // consume *
+        next(); // consume /
+      } else {
+        break;
+      }
     }
   };
 
   const parseValue = () => {
-    skipWhitespace();
+    skipWhitespaceAndComments();
     const char = currentChar();
     switch (char) {
       case '"':
@@ -225,17 +243,17 @@ export const _parse = (source) => {
 
   const parseList = () => {
     expect('[');
-    skipWhitespace();
+    skipWhitespaceAndComments();
     if (currentChar() === ']') {
       next();
       return [];
     }
     const result = [];
     while (true) {
-      skipWhitespace();
+      skipWhitespaceAndComments();
       const value = parseValue();
       result.push(value);
-      skipWhitespace();
+      skipWhitespaceAndComments();
       if (currentChar() === ']') {
         break;
       }
@@ -247,20 +265,20 @@ export const _parse = (source) => {
 
   const parseObject = () => {
     expect('{');
-    skipWhitespace();
+    skipWhitespaceAndComments();
     if (currentChar() === '}') {
       next();
       return {};
     }
     const result = {};
     while (true) {
-      skipWhitespace();
+      skipWhitespaceAndComments();
       const key = parseString();
-      skipWhitespace();
+      skipWhitespaceAndComments();
       expect(':');
       const value = parseValue();
       result[key] = value;
-      skipWhitespace();
+      skipWhitespaceAndComments();
       if (currentChar() === '}') {
         break;
       }

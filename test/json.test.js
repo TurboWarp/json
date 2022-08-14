@@ -100,6 +100,26 @@ test('_parse', () => {
       -Infinity
     ]
   });
+  expect(_parse(`
+    // AAAAA
+    {
+      //////// AAAAA
+      "a"
+      /* AHHHH */
+      :
+      /*/ aaaaa
+
+        //* 
+      // * /
+
+      */
+     "// AAAA /* AAAA */"
+    //  Test test ////////* Test
+    }
+    // AAA
+    /* AAA */ //`)).toStrictEqual({
+    "a": "// AAAA /* AAAA */"
+  })
   expect(() => _parse('')).toThrow('Unexpected end of input (Line 1 Column 1)');
   expect(() => _parse('[')).toThrow('Unexpected end of input (Line 1 Column 2)');
   expect(() => _parse('{"a":\'\'}')).toThrow('Unknown word (starts with \') (Line 1 Column 6)')
