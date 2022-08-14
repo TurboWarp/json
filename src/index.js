@@ -244,20 +244,20 @@ export const _parse = (source) => {
   const parseList = () => {
     expect('[');
     skipWhitespaceAndComments();
-    if (currentChar() === ']') {
-      next();
-      return [];
-    }
     const result = [];
     while (true) {
-      skipWhitespaceAndComments();
-      const value = parseValue();
-      result.push(value);
       skipWhitespaceAndComments();
       if (currentChar() === ']') {
         break;
       }
-      expect(',');
+      const value = parseValue();
+      result.push(value);
+      skipWhitespaceAndComments();
+      if (currentChar() === ',') {
+        next();
+      } else {
+        break;
+      }
     }
     expect(']');
     return result;
@@ -266,23 +266,23 @@ export const _parse = (source) => {
   const parseObject = () => {
     expect('{');
     skipWhitespaceAndComments();
-    if (currentChar() === '}') {
-      next();
-      return {};
-    }
     const result = {};
     while (true) {
       skipWhitespaceAndComments();
+      if (currentChar() === '}') {
+        break;
+      }
       const key = parseString();
       skipWhitespaceAndComments();
       expect(':');
       const value = parseValue();
       result[key] = value;
       skipWhitespaceAndComments();
-      if (currentChar() === '}') {
+      if (currentChar() === ',') {
+        next();
+      } else {
         break;
       }
-      expect(',');
     }
     expect('}');
     return result;

@@ -121,6 +121,32 @@ test('_parse', () => {
     "a": "// AAAA /* AAAA */"
   });
   expect(_parse('"Hello")*(@#&$%R*(IOW#E$R%*(I#Y*(I$#YT*I#ERTGEDLKJHNE$ */ )(#@*!{}')).toEqual('Hello');
+  expect(_parse(`
+  [
+    "a",
+    "b",
+  ]
+  `)).toStrictEqual(['a', 'b']);
+  expect(_parse(`
+  {
+    "a": "b",
+    "c": ["d", "e",],
+  }`)).toStrictEqual({
+    a: 'b',
+    c: ['d', 'e']
+  });
+  expect(() => _parse('["a""b"]')).toThrow("Expected ']' but found '\"' (Line 1 Column 5)");
+  expect(() => _parse('["a",,"b"]')).toThrow("Unexpected character ',' (Line 1 Column 6)")
+  expect(() => _parse(`
+    {
+      "a": "b"
+      "c": "d"
+    }`)).toThrow("Expected '}' but found '\"' (Line 4 Column 7)");
+    expect(() => _parse(`
+    {
+      "a": "b",,
+      "c": "d"
+    }`)).toThrow("Expected '\"' but found ',' (Line 3 Column 16)");
   expect(() => _parse('')).toThrow('Unexpected end of input (Line 1 Column 1)');
   expect(() => _parse('[')).toThrow('Unexpected end of input (Line 1 Column 2)');
   expect(() => _parse('{"a":\'\'}')).toThrow("Unexpected character ''' (Line 1 Column 6)")
