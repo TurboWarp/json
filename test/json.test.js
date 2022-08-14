@@ -114,7 +114,7 @@ test('_parse', () => {
 
       */
      "// AAAA /* AAAA */"
-    //  Test test ////////* Test
+    //*  Test test ////////* Test
     }
     // AAA
     /* AAA */ //`)).toStrictEqual({
