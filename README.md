@@ -1,6 +1,11 @@
 # @turbowarp/json
 
-This library is intended to parse the non-standards compliant JSON found in some Scratch 2 projects.
+This library is intended to parse the non-standards compliant JSON found in some Scratch 2 projects:
+
+ - Parser and stringifier support `Infinity`, `-Infinity`, and `NaN`
+ - Parser supports comments with `// ...` and `/* ... */`
+ - Parser supports trailing commas
+ - Parser supports extra ignored data after the end of the JSON value
 
 Install from npm:
 
