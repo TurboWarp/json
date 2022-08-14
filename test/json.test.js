@@ -135,6 +135,9 @@ test('_parse', () => {
     a: 'b',
     c: ['d', 'e']
   });
+  expect(_parse(`{"\\n\\t\\r\\b\\u0000\\"":"\\n\\t\\r\\b\\u0000\\""}`)).toStrictEqual({
+    "\n\t\r\b\u0000\"": "\n\t\r\b\u0000\""
+  });
 
   // The exact error message of these tests isn't important, it's just that we want to make sure that
   // the parser is rejecting certain invalid JSON and that the error aren't changing unexpectedly
