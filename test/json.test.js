@@ -104,7 +104,7 @@ test('_parse', () => {
     // AAAAA
     {
       //////// AAAAA
-      "a"
+      "a"\t\t   \t
       /* AHHHH */
       :
       /*/ aaaaa
@@ -135,6 +135,10 @@ test('_parse', () => {
     a: 'b',
     c: ['d', 'e']
   });
+
+  // The exact error message of these tests isn't important, it's just that we want to make sure that
+  // the parser is rejecting certain invalid JSON and that the error aren't changing unexpectedly
+  // (which could indicate a bug)
   expect(() => _parse('["a""b"]')).toThrow("Expected ']' but found '\"' (Line 1 Column 5)");
   expect(() => _parse('["a",,"b"]')).toThrow("Unexpected character ',' (Line 1 Column 6)")
   expect(() => _parse(`
@@ -151,6 +155,9 @@ test('_parse', () => {
   expect(() => _parse('[')).toThrow('Unexpected end of input (Line 1 Column 2)');
   expect(() => _parse('{"a":\'\'}')).toThrow("Unexpected character ''' (Line 1 Column 6)")
   expect(() => _parse('"\\0"')).toThrow('Invalid escape code: \\0 (Line 1 Column 3)');
+  expect(() => _parse('\n infinity\n')).toThrow("Unexpected character 'i' (Line 2 Column 2)");
+  expect(() => _parse('\n -infinity\n')).toThrow("Not a number: - (Line 2 Column 3)");
+  expect(() => _parse('\n\tnan\n')).toThrow("Unexpected character 'n' (Line 2 Column 2)");
 });
 
 test('stringify', () => {
