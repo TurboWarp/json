@@ -146,7 +146,7 @@ export const _parse = (source) => {
       }
       return NaN;
     }
-    error(`Unknown word (starts with ${currentChar()})`);
+    error(`Unexpected character '${currentChar()}'`);
   };
 
   const parseNumber = () => {
