@@ -177,13 +177,11 @@ export const _parse = (source) => {
   const parseString = () => {
     expect('"');
     let result = '';
-    if (currentChar() === '"') {
-      next();
-      return '';
-    }
     while (true) {
       const char = currentChar();
-      if (char === '\\') {
+      if (char === '"') {
+        break;
+      } else if (char === '\\') {
         next();
         switch (currentChar()) {
           case '"':
@@ -231,12 +229,8 @@ export const _parse = (source) => {
       } else {
         result += char;
       }
-      if (peek() === '"') {
-        break;
-      }
       next();
     }
-    next();
     expect('"');
     return result;
   };
