@@ -1,6 +1,6 @@
 import * as ExtendedJSON from '../src/index.js';
 
-const OBJECT = `{
+const OBJECT_TO_PARSE = `{
 	"objName": "Stage",
 	"variables": [{
 			"name": "NaN",
@@ -115,23 +115,42 @@ const OBJECT = `{
 	}
 }`;
 
-const runBenchmark = (parse) => {
+const OBJECT_TO_STRINGIFY = JSON.parse(OBJECT_TO_PARSE);
+
+const NUM = 50000;
+
+const benchmark = (fn) => {
   const start = process.hrtime.bigint();
-  const NUM = 10000;
-  for (let i = 0; i < NUM; i++) {
-    parse(OBJECT);
-  }
+  fn();
   const end = process.hrtime.bigint();
   const totalMS = Number((end - start) / 1000000n);
   const average = totalMS / NUM;
   console.log(`${totalMS}ms total / ${average}ms average`);
   return average;
-};
+}
+
+const benchmarkParse = (parse) => benchmark(() => {
+  for (let i = 0; i < NUM; i++) {
+    parse(OBJECT_TO_PARSE);
+  }
+});
+
+const benchmarkStringify = (stringify) => benchmark(() => {
+  for (let i = 0; i < NUM; i++) {
+    stringify(OBJECT_TO_STRINGIFY);
+  }
+});
 
 process.stdout.write('JSON.parse... ');
-const nativeAverage = runBenchmark(JSON.parse.bind(JSON));
-
+const nativeParseAverage = benchmarkParse(JSON.parse.bind(JSON));
 process.stdout.write('ExtendedJSON.parse... ');
-const customAverage = runBenchmark(ExtendedJSON._parse.bind(ExtendedJSON));
+const customParseAverage = benchmarkParse(ExtendedJSON._parse.bind(ExtendedJSON));
+console.log(`JSON.parse is ${(customParseAverage / nativeParseAverage).toFixed(2)}x faster`);
 
-console.log(`JSON.parse is ${(customAverage / nativeAverage).toFixed(2)}x faster`);
+console.log('');
+
+process.stdout.write('JSON.stringify... ');
+const nativeStringifyAverage = benchmarkStringify(JSON.stringify.bind(JSON));
+process.stdout.write('ExtendedJSON.stringify... ');
+const customStringifyAverage = benchmarkStringify(ExtendedJSON.stringify.bind(ExtendedJSON));
+console.log(`JSON.stringify is ${(customStringifyAverage / nativeStringifyAverage).toFixed(2)}x faster`);
