@@ -64,22 +64,25 @@ export const _parse = (source) => {
     while (true) {
       if (/\s/.test(currentChar())) {
         next();
-      } else if (peek(2, 0) === '//') {
-        next(); // consume /
-        next(); // consume /
-        while (currentChar() !== '\n') {
-          next();
-        }
-      } else if (peek(2, 0) === '/*') {
-        next(); // consume /
-        next(); // consume *
-        while (peek(2, 0) !== '*/') {
-          next();
-        }
-        next(); // consume *
-        next(); // consume /
       } else {
-        break;
+        const next2 = peek(2, 0);
+        if (next2 === '//') {
+          next(); // consume /
+          next(); // consume /
+          while (currentChar() !== '\n') {
+            next();
+          }
+        } else if (next2 === '/*') {
+          next(); // consume /
+          next(); // consume *
+          while (peek(2, 0) !== '*/') {
+            next();
+          }
+          next(); // consume *
+          next(); // consume /
+        } else {
+          break;
+        }
       }
     }
   };
