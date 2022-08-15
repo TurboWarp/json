@@ -4,6 +4,7 @@
   "description": "Parse the non-standards compliant JSON found in some Scratch 2 projects",
   "main": "./lib/cjs.cjs",
   "module": "./src/index.js",
+  "types": "./index.d.ts",
   "type": "module",
   "license": "MIT",
   "scripts": {
