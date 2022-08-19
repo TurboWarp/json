@@ -66,6 +66,8 @@ test('parse', () => {
 
 test('_parse', () => {
   simpleSamples.forEach(({src, obj}) => expect(_parse(src)).toStrictEqual(obj));
+  simpleSamples.forEach(({src, obj}) => expect(_parse(`${src})(@#*$)(@#$)`)).toStrictEqual(obj));
+
   expect(_parse('-0')).toBe(-0);
   expect(_parse(String.raw`
     {
