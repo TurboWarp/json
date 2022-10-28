@@ -1,6 +1,6 @@
 # @turbowarp/json
 
-This library is intended to parse the non-standards compliant JSON found in some Scratch 2 projects:
+This library is intended to parse and stringify non-standards-compliant JSON:
 
  - Parser and stringifier support `Infinity`, `-Infinity`, and `NaN`
  - Parser supports comments with `// ...` and `/* ... */`
@@ -21,8 +21,12 @@ import * as ExtendedJSON from '@turbowarp/json';
 const ExtendedJSON = require('@turbowarp/json');
 ```
 
-parse() will convert a JSON string to an object like JSON.parse(). Does not support replacer. It will first try to use JSON.parse, and only if that fails, it will fallback to our custom JSON parser.
+Note that there is no `default` export, so `import ExtendedJSON from '@turbowarp/json';` might not work.
 
-_parse() is the same as parse() except it always uses our custom JSON parser.
+parse() parses a JSON string. It will first try to use JSON.parse, and falls back to our custom JSON parser if that fails. JSON.parse's reviver argument is not supported.
 
-stringify() will convert a JSON object to a string like JSON.stringify(). Does not support replacer or formatting.
+_parse() is also exported. It skips trying to use JSON.parse and always uses our custom JSON parser.
+
+stringify() converts a JSON object to a string. Does not support JSON.stringify's replacer or space arguments. The resulting string is always fully minimized.
+
+Our custom JSON parser and stringifier are not particularly optimized, but they are probably *fast enough*. The native JSON parser and stringifier are substantially faster than our custom ones.
