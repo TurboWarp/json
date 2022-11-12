@@ -1,6 +1,6 @@
 {
   "name": "@turbowarp/json",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": " Parse and stringify non-standards-compliant JSON",
   "main": "./lib/cjs.cjs",
   "module": "./src/index.js",
