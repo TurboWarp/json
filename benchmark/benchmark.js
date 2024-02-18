@@ -145,7 +145,7 @@ process.stdout.write('JSON.parse... ');
 const nativeParseAverage = benchmarkParse(JSON.parse.bind(JSON));
 process.stdout.write('ExtendedJSON.parse... ');
 const customParseAverage = benchmarkParse(ExtendedJSON._parse.bind(ExtendedJSON));
-console.log(`JSON.parse is ${(customParseAverage / nativeParseAverage).toFixed(2)}x faster`);
+console.log(`JSON.parse is ${(customParseAverage / nativeParseAverage).toFixed(2)}x as fast`);
 
 console.log('');
 
@@ -153,4 +153,4 @@ process.stdout.write('JSON.stringify... ');
 const nativeStringifyAverage = benchmarkStringify(JSON.stringify.bind(JSON));
 process.stdout.write('ExtendedJSON.stringify... ');
 const customStringifyAverage = benchmarkStringify(ExtendedJSON.stringify.bind(ExtendedJSON));
-console.log(`JSON.stringify is ${(customStringifyAverage / nativeStringifyAverage).toFixed(2)}x faster`);
+console.log(`JSON.stringify is ${(customStringifyAverage / nativeStringifyAverage).toFixed(2)}x as fast`);
