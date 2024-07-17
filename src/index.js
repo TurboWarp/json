@@ -311,7 +311,7 @@ export const stringify = (object) => {
     return JSON.stringify(object);
   }
   if (typeof object === 'number' || typeof object === 'boolean') {
-    // Difference from regular JSON: [-]Infinity and NaN will be sanitized as-is
+    // Difference from regular JSON: [-]Infinity and NaN will be serialized as-is
     return object.toString();
   }
   if (object === null || typeof object === 'undefined' || typeof object === 'symbol') {
