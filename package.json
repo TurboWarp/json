@@ -12,7 +12,7 @@
     "prepublish": "rollup -c",
     "benchmark": "node benchmark/benchmark.js"
   },
-  "author": "GarboMuffin",
+  "author": "Thomas Weber",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/TurboWarp/json.git"
@@ -21,7 +21,7 @@
     "url": "https://github.com/TurboWarp/json/issues"
   },
   "devDependencies": {
-    "rollup": "^2.78.0",
-    "vitest": "^0.21.1"
+    "rollup": "^4.34.8",
+    "vitest": "^3.0.6"
   }
 }
